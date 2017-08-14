@@ -9,6 +9,6 @@ class standards {
   file { '/etc/profile.d/ps1.sh':
     ensure => file,
     mode => '0644',
-    source => 'puppet:///standards/ps1.sh',
+    source => 'puppet:///modules/standards/ps1.sh',
   }
 }
