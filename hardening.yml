@@ -1,0 +1,41 @@
+---
+- hosts: vagrant
+  remote_user: vagrant
+  tasks:
+
+    - name: Create audit file
+      copy:
+        content: ""
+        dest: /tmp/{{ ansible_hostname}}.txt
+        mode: 0644
+
+    # - name: Gather Version info
+    #   shell: "{{ commands }}"
+    #   register: uname
+    #   with_items:
+    #     - uname -a
+    #     - systemctl
+
+    - name: Linux Version
+      command: uname -a
+      register: uname
+
+    - name: append
+      lineinfile:
+        dest: /tmp/{{ ansible_hostname}}.txt
+        regexp: '^'
+        line: '#####The following is the Linux Version information\n \
+        {{ uname }}'
+        insertafter: EOF
+
+    - name: Linux Version
+      command: cat /etc/passwd
+      register: passwd
+
+    - name: append
+      lineinfile:
+        dest: /tmp/{{ ansible_hostname}}.txt
+        regexp: '^'
+        line: '#####Contents of /etc/passwd  \
+        {{ passwd }}'
+        insertafter: EOF
